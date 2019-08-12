@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestrauntApplication.Model.BaseRestro
 {
-    class OrderedItemModel
+    public class OrderedItemModel
     {
         
         public Guid CustomerId{ get; set; }
