@@ -141,9 +141,8 @@ namespace RestrauntApplication.Class.BaseRestro
             int count = 1;
             long totalBill = 0;
             var orders = orderedItems.Where(s=>s.CustomerId == userId).Select(s => s.OrderedItems).FirstOrDefault();
-            
+
             Console.WriteLine("Ordered Item List : ");
-            
             ConsoleTable table = new ConsoleTable("Sr.No", "Name", "Price","Quantity");
             foreach (var order in orders)
             {
@@ -152,9 +151,6 @@ namespace RestrauntApplication.Class.BaseRestro
             }
             table.AddRow("","","Total BIll ",totalBill);
             table.Write(Format.Alternative);
-
-
-
 
         }
         public void ActionToPerformedByAdminChoice(int choice)
