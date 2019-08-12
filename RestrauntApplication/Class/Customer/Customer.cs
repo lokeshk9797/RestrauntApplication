@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using RestrauntApplication.Class.BaseRestro;
 using RestrauntApplication.Model.BaseRestro;
+using RestrauntApplication.Interface;
 using ConsoleTables;
 
 namespace RestrauntApplication.Class.Customer
@@ -18,7 +19,7 @@ namespace RestrauntApplication.Class.Customer
         List<OrderModel> orderedItems = new List<OrderModel>();
         Dictionary<int, string> customersMenuList = new Dictionary<int, string>();
 
-        public Restro restro = null;
+        public IRestro restro = null;
 
 
         public Customer(Guid userId)
@@ -41,6 +42,7 @@ namespace RestrauntApplication.Class.Customer
         {
             Console.Write("Enter Name : ");
             Name = Console.ReadLine();
+
         }
         private void SelectTable()
         {

@@ -5,7 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using RestrauntApplication.Model.BaseRestro;
 using RestrauntApplication.Class.BaseRestro;
+using RestrauntApplication.Class.OtherRestro;
 using RestrauntApplication.Class.Customer;
+using RestrauntApplication.Interface;
+using RestrauntApplication.Class;
+using Unity;
 
 
 namespace RestrauntApplication
@@ -16,7 +20,12 @@ namespace RestrauntApplication
         
         static void Main(string[] args)
         {
-            Restro restro = new Restro {restroName="Happy Food Junction",restroBranch="Mihan, Nagpur" };
+            //Restro restro = new Restro {restroName="Happy Food Junction",restroBranch="Mihan, Nagpur" };
+            IRestro restro = new Haldirams();
+            IUnityContainer container = new UnityContainer();
+            ContainerActions.RegisterElements(container);
+
+
 
             while (true)
             {
@@ -29,6 +38,9 @@ namespace RestrauntApplication
                 {
                     case 1:
                         {
+                            string selectedRestraunt = "2";
+                            
+                            restro = container.Resolve<IRestro>(selectedRestraunt);
                             int choice = restro.ShowMenuList();
                             restro.ActionToPerformedByAdminChoice(choice);
 
@@ -36,10 +48,11 @@ namespace RestrauntApplication
                         break;
                     case 2:
                         {
+                            restro = container.Resolve<IRestro>("2");
                             Customer customer = new Customer(new Guid())
                             {
                                 restro = restro                     //is this good or passing it as parameter in function calling
-                            };
+                        };
 
                             customer.CustomerActions();
 

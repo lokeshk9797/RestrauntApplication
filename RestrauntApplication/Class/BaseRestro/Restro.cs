@@ -5,19 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using RestrauntApplication.Model.BaseRestro;
 using ConsoleTables;
+using RestrauntApplication.Interface;
 
 namespace RestrauntApplication.Class.BaseRestro
 {
-    class Restro
+    public abstract class Restro : IRestro
     {
-        Dictionary<int, string> menu = new Dictionary<int, string>();
-        List<ItemModel> itemList = new List<ItemModel>();
-        List<TableModel> tableList = new List<TableModel>();
-        List<OrderedItemModel> orderedItems = new List<OrderedItemModel>();
-        List<OrderModel> currentOrder = new List<OrderModel>();
+        protected Dictionary<int, string> menu = new Dictionary<int, string>();
+        protected List<ItemModel> itemList = new List<ItemModel>();
+        protected List<TableModel> tableList = new List<TableModel>();
+        protected List<OrderedItemModel> orderedItems = new List<OrderedItemModel>();
+        protected List<OrderModel> currentOrder = new List<OrderModel>();
 
-        public string restroName { get; set; }
-        public string restroBranch { get; set; }
+        public string RestroName { get; set; }
+        public string RestroBranch { get; set; }
 
         public Restro()
         {
@@ -26,15 +27,10 @@ namespace RestrauntApplication.Class.BaseRestro
             SetTables();
         }
 
-        private void SetTables()
-        {
-            tableList.Add(new TableModel { TableId = 1, TableCapacity = 4, IsTableAvailable = true });
-            tableList.Add(new TableModel { TableId = 2, TableCapacity = 6, IsTableAvailable = true });
-            tableList.Add(new TableModel { TableId = 3, TableCapacity = 2, IsTableAvailable = true });
-            tableList.Add(new TableModel { TableId = 4, TableCapacity = 4, IsTableAvailable = true });
-        }
+        public abstract void SetTables();
+       
 
-        private void SetMenu()
+        public void SetMenu()
         {
             menu.Add(1, "Menu Card");
             menu.Add(2, "Items Available Today");
@@ -44,15 +40,8 @@ namespace RestrauntApplication.Class.BaseRestro
             menu.Add(6, "Exit");
         }
 
-        private void SetItems()
-        {
-            itemList.Add(new ItemModel { ItemId = 1, ItemName = "Idli   ", ItemPrice = 40.00, IsAvailable = true });
-            itemList.Add(new ItemModel { ItemId = 2, ItemName = "Dosa   ", ItemPrice = 70.00, IsAvailable = true });
-            itemList.Add(new ItemModel { ItemId = 3, ItemName = "Biryani", ItemPrice = 200.00, IsAvailable = true });
-            itemList.Add(new ItemModel { ItemId = 4, ItemName = "Burger ", ItemPrice = 120.00, IsAvailable = true });
-            itemList.Add(new ItemModel { ItemId = 5, ItemName = "Tea    ", ItemPrice = 15.00, IsAvailable =true});
-
-        }
+        public abstract void SetItems();
+        
 
         //private int? getUserChoice()
         //{
@@ -164,9 +153,9 @@ namespace RestrauntApplication.Class.BaseRestro
                 case 3:ShowTableList(false);
                     break;
                 case 4:
-                    Console.WriteLine($"Restraunt Name: {restroName}");
+                    Console.WriteLine($"Restraunt Name: {RestroName}");
                     break;
-                case 5: Console.WriteLine($"Restraunt Branch: {restroBranch}"); break;
+                case 5: Console.WriteLine($"Restraunt Branch: {RestroBranch}"); break;
                 case 6: break;
                     
             }
