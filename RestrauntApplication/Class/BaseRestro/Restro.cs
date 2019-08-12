@@ -46,11 +46,11 @@ namespace RestrauntApplication.Class.BaseRestro
 
         private void SetItems()
         {
-            itemList.Add(new ItemModel { ItemId = 1, ItemName = "Idli   ", ItemPrice = 40.00, IsAvailable = false });
+            itemList.Add(new ItemModel { ItemId = 1, ItemName = "Idli   ", ItemPrice = 40.00, IsAvailable = true });
             itemList.Add(new ItemModel { ItemId = 2, ItemName = "Dosa   ", ItemPrice = 70.00, IsAvailable = true });
             itemList.Add(new ItemModel { ItemId = 3, ItemName = "Biryani", ItemPrice = 200.00, IsAvailable = true });
             itemList.Add(new ItemModel { ItemId = 4, ItemName = "Burger ", ItemPrice = 120.00, IsAvailable = true });
-            itemList.Add(new ItemModel { ItemId = 5, ItemName = "Tea    ", ItemPrice = 15.00, IsAvailable =false});
+            itemList.Add(new ItemModel { ItemId = 5, ItemName = "Tea    ", ItemPrice = 15.00, IsAvailable =true});
 
         }
 
