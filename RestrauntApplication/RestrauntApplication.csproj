@@ -60,6 +60,8 @@
     <Compile Include="Class\OtherRestro\BurgerKing.cs" />
     <Compile Include="Class\OtherRestro\Haldirams.cs" />
     <Compile Include="Class\ContainerActions.cs" />
+    <Compile Include="Class\PayBillEvent.cs" />
+    <Compile Include="Class\PaymentSubscriber.cs" />
     <Compile Include="Interface\IRestro.cs" />
     <Compile Include="Model\BaseRestro\CustomerModel.cs" />
     <Compile Include="Model\BaseRestro\ItemModel.cs" />

@@ -16,7 +16,7 @@ namespace RestrauntApplication.Interface
         void ShowItemList(bool availability);
         void SetOrder(int itemId, int quantity);
         void ReserveTable(int tableId);
-        void OrderCompleted(Guid userId);
+        void OrderCompleted(Guid userId,String CustomerName);
         void ShowOrderedItems(Guid userId);
         void ActionToPerformedByAdminChoice(int choice);
         void ShowCustomers();

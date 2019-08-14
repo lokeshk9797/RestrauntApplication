@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using RestrauntApplication.Model.BaseRestro;
 using ConsoleTables;
 using RestrauntApplication.Interface;
+using RestrauntApplication.Class;
 
 namespace RestrauntApplication.Class.BaseRestro
 {
+
     public abstract class Restro : IRestro
     {
         protected Dictionary<int, string> menu = new Dictionary<int, string>();
@@ -16,7 +18,9 @@ namespace RestrauntApplication.Class.BaseRestro
         protected List<TableModel> tableList = new List<TableModel>();
         protected List<OrderedItemModel> orderedItems = new List<OrderedItemModel>();
         protected List<OrderModel> currentOrder = new List<OrderModel>();
-        
+
+        public delegate void MyDelegate(string message);
+        public event EventHandler<PayBillEvent> BillPaid ;
 
         public abstract string RestroName { get; }
         public abstract string RestroBranch { get; }
@@ -39,7 +43,13 @@ namespace RestrauntApplication.Class.BaseRestro
             menu.Add(4, "Restraunt Name");
             menu.Add(5, "Branch Name");
             menu.Add(6, "All Customer List");
-            menu.Add(7, "Exit");
+            menu.Add(7, "Go back");
+           
+        }
+
+        private void Restro_BillPaid(object sender, PayBillEvent e)
+        {
+            throw new NotImplementedException();
         }
 
         public abstract void SetItems();
@@ -122,24 +132,24 @@ namespace RestrauntApplication.Class.BaseRestro
 
         }
 
-        public void OrderCompleted(Guid userId)
+        public void OrderCompleted(Guid userId,String CustomerName)
         {
             long totalBill = 0;
             foreach(var order in currentOrder)
             {
                 totalBill += order.ItemPrice * order.Quantity;
             }
-            orderedItems.Add(new OrderedItemModel { CustomerId = userId, OrderedItems = currentOrder ,TotalBill=totalBill});
+            orderedItems.Add(new OrderedItemModel { CustomerId = userId,CustomerName=CustomerName, OrderedItems = currentOrder ,TotalBill=totalBill});
 
         }
 
         public void ShowCustomers()
         {
             int count = 1;
-            ConsoleTable table = new ConsoleTable("sr.no", "Name", "Total Bill");
+            ConsoleTable table = new ConsoleTable("sr.no","CusomerId", "Name", "Total Bill");
             foreach (var orderServed in orderedItems)
             {
-                table.AddRow(count++, orderServed.CustomerId, orderServed.TotalBill);
+                table.AddRow(count++, orderServed.CustomerId,orderServed.CustomerName, orderServed.TotalBill);
             }
             table.Write(Format.Alternative);
         }
@@ -155,18 +165,18 @@ namespace RestrauntApplication.Class.BaseRestro
             
             var orders = orderedItems.Where(s=>s.CustomerId == userId).Select(s => s.OrderedItems).FirstOrDefault();
             var bill = orderedItems.Where(s => s.CustomerId == userId).Select(s => s.TotalBill).FirstOrDefault();
+            var name = orderedItems.Where(s => s.CustomerId == userId).Select(s => s.CustomerName).FirstOrDefault();
             Console.WriteLine("Ordered Item List : ");
-            ConsoleTable table = new ConsoleTable("Sr.No", "Name", "Price","Quantity");
-            
-           
-            foreach (var order in orders)
+            ConsoleTable table = new ConsoleTable("Name ", name,"","");
+            table.AddRow("Sr.no", "Item", "Price", "Quantity");
+             foreach (var order in orders)
             {
-               
                 table.AddRow(count++,order.ItemName,order.ItemPrice,order.Quantity);
             }
             table.AddRow("", "", "Total Bill", bill);
             table.Write(Format.Alternative);
-
+            PayBillEvent(name,bill.ToString());
+                        
         }
         public void ActionToPerformedByAdminChoice(int choice)
         {
@@ -202,6 +212,23 @@ namespace RestrauntApplication.Class.BaseRestro
             }
         }
 
+        private void PayBillEvent(String name , String bill)
+        {
+            while (true)
+            {
+                Console.Write("Please press Y to Pay bill.. :");
+                var choice =Console.ReadLine();
+                if (choice.Equals("Y", StringComparison.OrdinalIgnoreCase))
+                    break;
+            }
+            RaiseBillPaymentEvent(new PayBillEvent(name,bill));
 
+        }
+        
+        public virtual void RaiseBillPaymentEvent(PayBillEvent eventArgs)
+        {
+            BillPaid?.Invoke(this, eventArgs);
+        }
+        
     }
 }

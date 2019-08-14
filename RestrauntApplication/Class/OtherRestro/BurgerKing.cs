@@ -27,7 +27,7 @@ namespace RestrauntApplication.Class.OtherRestro
             tableList.Add(new TableModel { TableId = 1, TableCapacity = 4, IsTableAvailable = true });
             tableList.Add(new TableModel { TableId = 2, TableCapacity = 6, IsTableAvailable = true });
             tableList.Add(new TableModel { TableId = 3, TableCapacity = 2, IsTableAvailable = true });
-            tableList.Add(new TableModel { TableId = 3, TableCapacity = 2, IsTableAvailable = true });
+            tableList.Add(new TableModel { TableId = 4, TableCapacity = 2, IsTableAvailable = true });
         }
     }
 }
