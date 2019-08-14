@@ -10,6 +10,7 @@ namespace RestrauntApplication.Model.BaseRestro
     {
         
         public Guid CustomerId{ get; set; }
+        public string CustomerName { get; set; }
         public long TotalBill { get; set; }
         public List<OrderModel> OrderedItems { get; set; }
     }

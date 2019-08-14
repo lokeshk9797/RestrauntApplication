@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using RestrauntApplication.Class.BaseRestro;
 using RestrauntApplication.Model.BaseRestro;
 using RestrauntApplication.Interface;
+using RestrauntApplication.Class;
 using ConsoleTables;
 
 namespace RestrauntApplication.Class.Customer
 {
-    class Customer
+    public class Customer
     {
         public Guid UserId { get; set; }
         public string Name { get; set; }
@@ -21,22 +22,24 @@ namespace RestrauntApplication.Class.Customer
 
         public IRestro restro = null;
 
-
+        
         public Customer(Guid userId)
         {
             UserId = userId;
+            
         }
         
 
         public void CustomerActions()
         {
+            PaymentSubscriber payee = new PaymentSubscriber((Restro)restro);
             GetCustomerName();
             SelectTable();
             OrderItems();
             ShowOrderedItemsList();
             
-                                   
         }
+        
         
         private void GetCustomerName()
         {
@@ -79,7 +82,7 @@ namespace RestrauntApplication.Class.Customer
                     break;
                 }
             }
-            restro.OrderCompleted(UserId);
+            restro.OrderCompleted(UserId,Name);
         }
 
 
