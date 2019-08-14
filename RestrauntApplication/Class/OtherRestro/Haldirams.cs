@@ -10,7 +10,10 @@ namespace RestrauntApplication.Class.OtherRestro
 {
     class Haldirams : Restro
     {
-        
+        public override string RestroName => "Haldirams";
+
+        public override string RestroBranch => "Nagpur";
+
         public override void SetItems()
         {
             itemList.Add(new ItemModel { ItemId = 1, ItemName = "Idli   ", ItemPrice = 40.00, IsAvailable = true });
@@ -26,8 +29,9 @@ namespace RestrauntApplication.Class.OtherRestro
             tableList.Add(new TableModel { TableId = 1, TableCapacity = 4, IsTableAvailable = true });
             tableList.Add(new TableModel { TableId = 2, TableCapacity = 6, IsTableAvailable = true });
             tableList.Add(new TableModel { TableId = 3, TableCapacity = 8, IsTableAvailable = true });
-            tableList.Add(new TableModel { TableId = 3, TableCapacity = 10, IsTableAvailable = true });
+            tableList.Add(new TableModel { TableId = 4, TableCapacity = 10, IsTableAvailable = true });
         }
+        
     }
 
    

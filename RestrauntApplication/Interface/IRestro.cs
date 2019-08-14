@@ -19,12 +19,8 @@ namespace RestrauntApplication.Interface
         void OrderCompleted(Guid userId);
         void ShowOrderedItems(Guid userId);
         void ActionToPerformedByAdminChoice(int choice);
+        void ShowCustomers();
 
-
-
-
-
-        
 
     }
 }
