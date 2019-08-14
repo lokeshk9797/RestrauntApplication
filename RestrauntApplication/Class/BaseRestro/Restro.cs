@@ -16,9 +16,10 @@ namespace RestrauntApplication.Class.BaseRestro
         protected List<TableModel> tableList = new List<TableModel>();
         protected List<OrderedItemModel> orderedItems = new List<OrderedItemModel>();
         protected List<OrderModel> currentOrder = new List<OrderModel>();
+        
 
-        public string RestroName { get; set; }
-        public string RestroBranch { get; set; }
+        public abstract string RestroName { get; }
+        public abstract string RestroBranch { get; }
 
         public Restro()
         {
@@ -28,7 +29,7 @@ namespace RestrauntApplication.Class.BaseRestro
         }
 
         public abstract void SetTables();
-       
+
 
         public void SetMenu()
         {
@@ -37,30 +38,14 @@ namespace RestrauntApplication.Class.BaseRestro
             menu.Add(3, "Table Details");
             menu.Add(4, "Restraunt Name");
             menu.Add(5, "Branch Name");
-            menu.Add(6, "Exit");
+            menu.Add(6, "All Customer List");
+            menu.Add(7, "Exit");
         }
 
         public abstract void SetItems();
-        
 
-        //private int? getUserChoice()
-        //{
-        //    Console.WriteLine("Please select an Option");
-             
-        //    var input = Console.ReadLine();
-        //    if(int.TryParse(input,out int choice))
-        //    {
-        //        return choice;
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Plese enter a number");
-        //        return null;
-        //    }
-            
-        //}
 
-        public int ShowMenuList()
+         public int ShowMenuList()
         {
             Console.WriteLine();
             foreach (var kyp in menu)
@@ -70,94 +55,150 @@ namespace RestrauntApplication.Class.BaseRestro
             Console.WriteLine("Please Enter a choice");
             int choice = Convert.ToInt32(Console.ReadLine());
             return choice;
-            
+
         }
         public void ShowTableList(bool availability)
         {
             if (availability)
             {
                 Console.WriteLine();
-                var items = tableList.Where(s=>s.IsTableAvailable).Select(s => " TableId  :  " + s.TableId + " Table Capacity :  " + s.TableCapacity);
-                Console.WriteLine(string.Join(Environment.NewLine, items)); 
+                var tables = tableList.Where(s => s.IsTableAvailable);
+                ConsoleTable displayTable = new ConsoleTable("Sr.no", "Table Capacity");
+                foreach(var table in tables)
+                {
+                    displayTable.AddRow(table.TableId, table.TableCapacity);
+                }
+                displayTable.Write(Format.Alternative);
+                
 
             }
             else
             {
                 Console.WriteLine();
-                var items = tableList.Select(s => " TableId  :  " + s.TableId + " Table Capacity :  " + s.TableCapacity + "  :  "+s.IsTableAvailable);
-                Console.WriteLine(string.Join(Environment.NewLine, items));
+                ConsoleTable displayTable = new ConsoleTable("Sr.no", "Table Capacity","Availability");
+                foreach (var table in tableList)
+                {
+                    string tableAvailibilty = table.IsTableAvailable ? "Free" : "Booked";
+                    displayTable.AddRow(table.TableId, table.TableCapacity,tableAvailibilty);
+                }
+                displayTable.Write(Format.Alternative);
             }
-            
+
         }
         public void ShowItemList(bool availability)
         {
             if (availability)
             {
                 Console.WriteLine();
-                var items = itemList.Where(s => s.IsAvailable).Select(s => s.ItemId + "  :  " + s.ItemName + "  :  " + s.ItemPrice);
-                Console.WriteLine(string.Join(Environment.NewLine, items));
+                var items = itemList.Where(s => s.IsAvailable);
+                ConsoleTable displayItems = new ConsoleTable("Sr.no", "Item Name","Price");
+                foreach (var item in items)
+                {
+                    displayItems.AddRow(item.ItemId,item.ItemName,item.ItemPrice);
+                }
+                displayItems.Write(Format.Alternative);
+
 
             }
             else
             {
                 Console.WriteLine();
-                var items = itemList.Select(s => s.ItemId + "  :  " + s.ItemName + "  :  " + s.ItemPrice);
-                Console.WriteLine(string.Join(Environment.NewLine, items));
+                ConsoleTable displayItems = new ConsoleTable("Sr.no", "Item Name", "Price","Availability");
+                foreach (var item in itemList)
+                {
+                    string itemAvailibilty = item.IsAvailable ? "Free" : "Booked";
+                    displayItems.AddRow(item.ItemId, item.ItemName, item.ItemPrice,itemAvailibilty);
+                }
+                displayItems.Write(Format.Alternative);
+
             }
 
         }
-       
-        public void SetOrder(int itemId,int quantity)
+
+        public void SetOrder(int itemId, int quantity)
         {
-            
-            currentOrder.Add(new OrderModel { ItemName=itemList[itemId-1].ItemName.ToString(),ItemPrice=Convert.ToInt32(itemList[itemId-1].ItemPrice),Quantity=quantity});
+
+            currentOrder.Add(new OrderModel { ItemName = itemList[itemId - 1].ItemName.ToString(), ItemPrice = Convert.ToInt32(itemList[itemId - 1].ItemPrice), Quantity = quantity });
 
         }
 
         public void OrderCompleted(Guid userId)
         {
-            orderedItems.Add(new OrderedItemModel { CustomerId = userId, OrderedItems=currentOrder });
+            long totalBill = 0;
+            foreach(var order in currentOrder)
+            {
+                totalBill += order.ItemPrice * order.Quantity;
+            }
+            orderedItems.Add(new OrderedItemModel { CustomerId = userId, OrderedItems = currentOrder ,TotalBill=totalBill});
+
         }
 
+        public void ShowCustomers()
+        {
+            int count = 1;
+            ConsoleTable table = new ConsoleTable("sr.no", "Name", "Total Bill");
+            foreach (var orderServed in orderedItems)
+            {
+                table.AddRow(count++, orderServed.CustomerId, orderServed.TotalBill);
+            }
+            table.Write(Format.Alternative);
+        }
 
         public void ReserveTable(int tableId)
         {
-            tableList[tableId].IsTableAvailable = false;
+            tableList[tableId-1].IsTableAvailable = false;
         }
 
         public void ShowOrderedItems(Guid userId)
         {
             int count = 1;
-            long totalBill = 0;
+            
             var orders = orderedItems.Where(s=>s.CustomerId == userId).Select(s => s.OrderedItems).FirstOrDefault();
-
+            var bill = orderedItems.Where(s => s.CustomerId == userId).Select(s => s.TotalBill).FirstOrDefault();
             Console.WriteLine("Ordered Item List : ");
             ConsoleTable table = new ConsoleTable("Sr.No", "Name", "Price","Quantity");
+            
+           
             foreach (var order in orders)
             {
-                totalBill += order.ItemPrice * order.Quantity;
+               
                 table.AddRow(count++,order.ItemName,order.ItemPrice,order.Quantity);
             }
-            table.AddRow("","","Total BIll ",totalBill);
+            table.AddRow("", "", "Total Bill", bill);
             table.Write(Format.Alternative);
 
         }
         public void ActionToPerformedByAdminChoice(int choice)
         {
-            switch(choice)
-            {
-                case 1:ShowItemList(false);
+           
+                switch (choice)
+                {
+                    case 1:
+                        ShowItemList(false);
+                        break;
+                    case 2:
+                        ShowItemList(true);
+                        break;
+                    case 3:
+                        ShowTableList(false);
+                        break;
+                    case 4:
+                        ConsoleTable DisplayName = new ConsoleTable("Restaurant Name : ", RestroName);
+                        DisplayName.Write(Format.Alternative);
+                        break;
+                    case 5:
+                        ConsoleTable DisplayBranch = new ConsoleTable("Restaurant Branch : ", RestroBranch);
+                        DisplayBranch.Write(Format.Alternative);
+                        break;
+                    case 6:
+                        ShowCustomers();
+                        break;
+                    case 7:
+                        break;
+                default: Console.WriteLine("Enter Correct Choice");
                     break;
-                case 2: ShowItemList(true);
-                    break;
-                case 3:ShowTableList(false);
-                    break;
-                case 4:
-                    Console.WriteLine($"Restraunt Name: {RestroName}");
-                    break;
-                case 5: Console.WriteLine($"Restraunt Branch: {RestroBranch}"); break;
-                case 6: break;
-                    
+
+               
             }
         }
 

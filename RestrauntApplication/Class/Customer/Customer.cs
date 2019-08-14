@@ -76,10 +76,10 @@ namespace RestrauntApplication.Class.Customer
 
                 if (choice.Equals("N", StringComparison.OrdinalIgnoreCase))
                 {
-                    restro.OrderCompleted(UserId);
                     break;
                 }
             }
+            restro.OrderCompleted(UserId);
         }
 
 

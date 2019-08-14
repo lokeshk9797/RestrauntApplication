@@ -10,6 +10,9 @@ namespace RestrauntApplication.Class.OtherRestro
 {
     class BurgerKing : Restro
     {
+        public override string RestroName => "BurgerKing";
+
+        public override string RestroBranch => "Mihan,Nagpur";
         public override void SetItems()
         {
             itemList.Add(new ItemModel { ItemId = 1, ItemName = "Veg Burger", ItemPrice = 40.00, IsAvailable = true });

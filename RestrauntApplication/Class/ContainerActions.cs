@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Unity;
 using RestrauntApplication.Interface;
 using RestrauntApplication.Class.OtherRestro;
+using Unity.Lifetime;
 
 namespace RestrauntApplication.Class
 {
@@ -13,9 +14,9 @@ namespace RestrauntApplication.Class
     {
         public static void RegisterElements(IUnityContainer conatiner)
         {
-            conatiner.RegisterType<IRestro, Haldirams>("1");
-            conatiner.RegisterType<IRestro, BarbequeNation>("2");
-            conatiner.RegisterType<IRestro, BurgerKing>("3");
+            conatiner.RegisterType<IRestro, Haldirams>("1",new ContainerControlledLifetimeManager());
+            conatiner.RegisterType<IRestro, BarbequeNation>("2", new ContainerControlledLifetimeManager());
+            conatiner.RegisterType<IRestro, BurgerKing>("3", new ContainerControlledLifetimeManager());
         }
     }
 }
