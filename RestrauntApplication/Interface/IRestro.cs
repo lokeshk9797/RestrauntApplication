@@ -12,7 +12,7 @@ namespace RestrauntApplication.Interface
         void SetItems();
         void SetMenu();
         int ShowMenuList();
-        void ShowTableList(bool availability);
+        int ShowTableList(bool availability);
         void ShowItemList(bool availability);
         void SetOrder(int itemId, int quantity);
         void ReserveTable(int tableId);

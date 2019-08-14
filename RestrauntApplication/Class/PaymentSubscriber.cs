@@ -16,7 +16,9 @@ namespace RestrauntApplication.Class
         }
         private void OnBillPaid(object sender, PayBillEvent e)
         {
-            Console.WriteLine($"Bill of {e.TotalBill} paid by{e.CustomerName} ");
+            Console.WriteLine();
+            Console.WriteLine($"Bill of {e.TotalBill} paid by {e.CustomerName} ");
+            Console.WriteLine();
         }
     }
 }
