@@ -67,7 +67,7 @@ namespace RestrauntApplication.Class.BaseRestro
             return choice;
 
         }
-        public void ShowTableList(bool availability)
+        public int ShowTableList(bool availability)
         {
             if (availability)
             {
@@ -79,7 +79,7 @@ namespace RestrauntApplication.Class.BaseRestro
                     displayTable.AddRow(table.TableId, table.TableCapacity);
                 }
                 displayTable.Write(Format.Alternative);
-                
+                return tableList.Count;
 
             }
             else
@@ -92,7 +92,13 @@ namespace RestrauntApplication.Class.BaseRestro
                     displayTable.AddRow(table.TableId, table.TableCapacity,tableAvailibilty);
                 }
                 displayTable.Write(Format.Alternative);
+                return tableList.Count;
             }
+
+        }
+        public void ReserveTable(int tableId)
+        {
+            tableList[tableId - 1].IsTableAvailable = false;
 
         }
         public void ShowItemList(bool availability)
@@ -154,10 +160,7 @@ namespace RestrauntApplication.Class.BaseRestro
             table.Write(Format.Alternative);
         }
 
-        public void ReserveTable(int tableId)
-        {
-            tableList[tableId-1].IsTableAvailable = false;
-        }
+        
 
         public void ShowOrderedItems(Guid userId)
         {

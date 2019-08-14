@@ -34,17 +34,17 @@ namespace RestrauntApplication
                 Console.WriteLine("1 : Admin");
                 Console.WriteLine("2 : Customer");
                 Console.WriteLine("3 : Exit");
-                var a = Convert.ToInt32(Console.ReadLine());
+                var a = Console.ReadLine();
                 switch (a)
                 {
-                    case 1:
+                    case "1":
                         {
                             restro = container.Resolve<IRestro>(ChooseRestraunt());
                             DisplayAdminMenu(restro);                 
 
                         };
                         break;
-                    case 2:
+                    case "2":
                         {
                             restro = container.Resolve<IRestro>(ChooseRestraunt());
                             Customer customer = new Customer( Guid.NewGuid())
@@ -55,7 +55,7 @@ namespace RestrauntApplication
                             customer.CustomerActions();
                         }
                         break;
-                    case 3: Environment.Exit(0);
+                    case "3": Environment.Exit(0);
                         break;
                     default:
                         Console.WriteLine("Please select from above options only ");
@@ -94,17 +94,43 @@ namespace RestrauntApplication
             }
            
             table.Write(Format.Alternative);
-            int result = 0;
-            Console.Write("Please select a Restaurant : ");
-            string choice = Console.ReadLine();
-            while ( !Int32.TryParse(choice, out result))
-            {
-                Console.WriteLine("Not a valid number, try again.");
-                Console.Write("Please select a Restaurant : ");
-                choice = Console.ReadLine();
-            }
+            string result =null;
             
-            return result.ToString();
+            //while ( !Int32.TryParse(choice, out result))
+            //{
+            //    Console.WriteLine("Not a valid number, try again.");
+            //    Console.Write("Please select a Restaurant : ");
+            //    choice = Console.ReadLine();
+            //}
+            while(true)
+            {
+                
+                Console.Write("Please select a Restaurant : ");
+                String choice = Console.ReadLine();
+                switch (
+                    choice)
+                {
+
+                    case "1":
+                        result = "1";
+                        return result;
+                        
+                    case "2":
+                        result = "2";
+                        return result;
+                        
+                    case "3":
+                        result = "3";
+                        return result;
+                        
+                    default:
+                        Console.WriteLine("Please Enter Correct Value");
+                        break;
+                }
+                
+            }
+
+            
         }
     }
 }

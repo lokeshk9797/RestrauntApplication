@@ -49,9 +49,11 @@ namespace RestrauntApplication.Class.Customer
         }
         private void SelectTable()
         {
-            restro.ShowTableList(true);
+            int count = restro.ShowTableList(true);
+            
             Console.Write("Select Table : ");
-            TableId = Convert.ToInt16(Console.ReadLine());
+            TableId = Convert.ToInt32(Console.ReadLine());
+
             restro.ReserveTable(TableId);
         }
         private void ShowOrderedItemsList()
