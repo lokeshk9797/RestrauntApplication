@@ -58,6 +58,7 @@
     <Compile Include="Class\Customer\Customer.cs" />
     <Compile Include="Class\OtherRestro\BarbequeNation.cs" />
     <Compile Include="Class\OtherRestro\BurgerKing.cs" />
+    <Compile Include="Class\OtherRestro\Dominos.cs" />
     <Compile Include="Class\OtherRestro\Haldirams.cs" />
     <Compile Include="Class\ContainerActions.cs" />
     <Compile Include="Class\PayBillEvent.cs" />

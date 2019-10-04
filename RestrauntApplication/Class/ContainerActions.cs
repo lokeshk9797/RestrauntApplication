@@ -17,6 +17,7 @@ namespace RestrauntApplication.Class
             conatiner.RegisterType<IRestro, Haldirams>("1",new ContainerControlledLifetimeManager());
             conatiner.RegisterType<IRestro, BarbequeNation>("2", new ContainerControlledLifetimeManager());
             conatiner.RegisterType<IRestro, BurgerKing>("3", new ContainerControlledLifetimeManager());
+            conatiner.RegisterType<IRestro, Dominos>("4", new ContainerControlledLifetimeManager());
         }
     }
 }

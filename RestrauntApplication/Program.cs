@@ -83,6 +83,7 @@ namespace RestrauntApplication
             RestrauntNames.Add("Haldirams");
             RestrauntNames.Add("Barbeque Nation ");
             RestrauntNames.Add("BurgerKing");
+            RestrauntNames.Add("Dominos");
 
 
             Console.WriteLine(" Restraunt List");
@@ -122,7 +123,11 @@ namespace RestrauntApplication
                     case "3":
                         result = "3";
                         return result;
-                        
+
+                    case "4":
+                        result = "4";
+                        return result;
+
                     default:
                         Console.WriteLine("Please Enter Correct Value");
                         break;
